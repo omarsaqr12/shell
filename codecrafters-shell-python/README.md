@@ -1,35 +1,49 @@
-[![progress-banner](https://backend.codecrafters.io/progress/shell/ab27b958-cd05-4cb9-9448-9d3363987e08)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
+# Custom Shell Script
 
-This is a starting point for Python solutions to the
-["Build Your Own Shell" Challenge](https://app.codecrafters.io/courses/shell/overview).
+This is a simple Python-based shell implementation that mimics basic shell commands like `echo`, `exit`, `type`, `pwd`, and `cd`. It also allows running commands found in the system's `PATH`.
 
-In this challenge, you'll build your own POSIX compliant shell that's capable of
-interpreting shell commands, running external programs and builtin commands like
-cd, pwd, echo and more. Along the way, you'll learn about shell command parsing,
-REPLs, builtin commands, and more.
+## Features
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+- **Custom Commands**:
+  - `echo [text]`: Prints the specified text to the console.
+  - `exit 0`: Exits the shell.
+  - `type [command]`: Checks if the command is a shell builtin or available in the system `PATH`.
+  - `pwd`: Prints the current working directory.
+  - `cd [directory]`: Changes the current directory.
 
-# Passing the first stage
+- **System Commands**: If the command entered is not a custom command, the script searches for it in the system's `PATH` and executes it if found.
 
-The entry point for your `shell` implementation is in `app/main.py`. Study and
-uncomment the relevant code, and push your changes to pass the first stage:
+## Functions
 
-```sh
-git add .
-git commit -m "pass 1st stage" # any msg
-git push origin master
-```
+### `list_all_directories(searcg)`
 
-Time to move on to the next stage!
+- **Purpose**: Recursively traverses the directory tree starting from the root (`/`) and checks if the specified directory exists.
+- **Parameters**:
+  - `searcg` (str): The directory to search for.
+- **Returns**: `1` if the directory is found, `0` otherwise.
+- **Exceptions**: Catches and handles `PermissionError` and other general exceptions.
 
-# Stage 2 & beyond
+### `find_command_in_path(command)`
 
-Note: This section is for stages 2 and beyond.
+- **Purpose**: Searches for a command in the system's `PATH`.
+- **Parameters**:
+  - `command` (str): The command to search for.
+- **Returns**: The full path to the command if found, `None` otherwise.
 
-1. Ensure you have `python (3.11)` installed locally
-1. Run `./your_program.sh` to run your program, which is implemented in
-   `app/main.py`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+### `main()`
+
+- **Purpose**: The main loop of the shell, continuously prompts the user for input and executes the appropriate command based on the input.
+- **Commands**:
+  - `type [command]`
+  - `echo [text]`
+  - `exit 0`
+  - `pwd`
+  - `cd [directory]`
+  - System commands (if found in `PATH`)
+
+## Usage
+
+To use this script, simply run it with Python:
+
+```bash
+python3 shell.py
