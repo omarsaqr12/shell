@@ -9,7 +9,7 @@
 
 ## Baseline inventory and file coverage
 
-All **eight** tracked files were read in full: root `README.md`; nested `Pipfile`, `Pipfile.lock`, `README.md`, `app/main.py`, `app/tempCodeRunnerFile.py`, `codecrafters.yml`, and `your_program.sh`. No tracked binary/vendor or experiment results were present. The four-byte `app/tempCodeRunnerFile.py` contains only `type`; left unchanged to preserve historical material. The CodeCrafters files remain untouched. No independent grader score or contribution breakdown was available.
+All **eight** tracked files were read in full: root `README.md`; nested `Pipfile`, `Pipfile.lock`, `README.md`, `app/main.py`, `app/tempCodeRunnerFile.py`, `codecrafters.yml`, and `your_program.sh`. No tracked binary/vendor or experiment results were present. The four-byte `app/tempCodeRunnerFile.py` contains only `type`; left unchanged to preserve historical material. The CodeCrafters files remain untouched. The launcher has no executable bit; invoke with `sh your_program.sh` after installing Pipenv. No independent grader score or contribution breakdown was available.
 
 ## Confirmed baseline problems (source review)
 

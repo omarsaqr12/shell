@@ -24,7 +24,7 @@ $ cd ..
 $ exit 0
 ```
 
-The launcher `./your_program.sh` uses Pipenv and requires `pipenv` to be installed. Direct `python3 -m app.main` execution requires no third-party runtime packages.
+The launcher `sh your_program.sh` uses Pipenv and requires `pipenv` to be installed. Invoke it with `sh` because the original file is not tracked with executable permission. Direct `python3 -m app.main` execution requires no third-party runtime packages.
 
 ## Implemented behavior
 
