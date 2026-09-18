@@ -1,49 +1,54 @@
-# Custom Shell Script
+# Python mini-shell
 
-This is a simple Python-based shell implementation that mimics basic shell commands like `echo`, `exit`, `type`, `pwd`, and `cd`. It also allows running commands found in the system's `PATH`.
+An interactive, **educational shell implementation** developed in the [CodeCrafters shell challenge](https://codecrafters.io/challenges/shell/overview). It implements five builtins, PATH-based external command execution, quoted arguments, and working-directory changes. It is not a POSIX shell or a replacement for Bash.
 
-## Features
+## Quickstart
 
-- **Custom Commands**:
-  - `echo [text]`: Prints the specified text to the console.
-  - `exit 0`: Exits the shell.
-  - `type [command]`: Checks if the command is a shell builtin or available in the system `PATH`.
-  - `pwd`: Prints the current working directory.
-  - `cd [directory]`: Changes the current directory.
-
-- **System Commands**: If the command entered is not a custom command, the script searches for it in the system's `PATH` and executes it if found.
-
-## Functions
-
-### `list_all_directories(searcg)`
-
-- **Purpose**: Recursively traverses the directory tree starting from the root (`/`) and checks if the specified directory exists.
-- **Parameters**:
-  - `searcg` (str): The directory to search for.
-- **Returns**: `1` if the directory is found, `0` otherwise.
-- **Exceptions**: Catches and handles `PermissionError` and other general exceptions.
-
-### `find_command_in_path(command)`
-
-- **Purpose**: Searches for a command in the system's `PATH`.
-- **Parameters**:
-  - `command` (str): The command to search for.
-- **Returns**: The full path to the command if found, `None` otherwise.
-
-### `main()`
-
-- **Purpose**: The main loop of the shell, continuously prompts the user for input and executes the appropriate command based on the input.
-- **Commands**:
-  - `type [command]`
-  - `echo [text]`
-  - `exit 0`
-  - `pwd`
-  - `cd [directory]`
-  - System commands (if found in `PATH`)
-
-## Usage
-
-To use this script, simply run it with Python:
+Requires Python 3.12 or later. From the repository root:
 
 ```bash
-python3 shell.py
+cd codecrafters-shell-python
+python3 -m app.main
+```
+
+Example interactive session (the `$` lines are prompts):
+
+```text
+$ type echo
+echo is a shell builtin
+$ echo 'two words'
+two words
+$ pwd
+/path/to/codecrafters-shell-python
+$ cd ..
+$ exit 0
+```
+
+The launcher `sh your_program.sh` uses Pipenv and requires `pipenv` to be installed. Invoke it with `sh` because the original file is not tracked with executable permission. Direct `python3 -m app.main` execution requires no third-party runtime packages.
+
+## Implemented behavior
+
+| Command | Behavior |
+| --- | --- |
+| `echo` | Prints arguments after shell-like quote/backslash tokenization. |
+| `type` | Reports builtins or the first executable found on `PATH`. |
+| `pwd` | Prints the process working directory. |
+| `cd` | Uses `os.chdir` for absolute, relative, and `~` paths; no argument means home. |
+| `exit 0` | Stops the loop (`exit` without arguments also stops). |
+| Other commands | Finds an executable on `PATH` and runs it with an argument list, **without** `shell=True`. |
+
+Unlike a full shell, this implementation does **not** interpret pipes, redirects, background jobs, variables, command substitution, globbing, or compound expressions. Nonzero child exit codes do not stop the interactive loop. Errors in quotes or `cd` are reported instead of crashing the shell.
+
+## Architecture and verification
+
+- [`codecrafters-shell-python/app/main.py`](codecrafters-shell-python/app/main.py): tokenize input, dispatch builtins, resolve PATH, and run external processes.
+- [`codecrafters-shell-python/tests/test_shell.py`](codecrafters-shell-python/tests/test_shell.py): builtin tests plus real child-process and EOF tests.
+- [`REVIEW_NOTES.md`](REVIEW_NOTES.md): repository coverage, defects, verification, and limitations.
+
+Run tests from `codecrafters-shell-python`:
+
+```bash
+python3 -m unittest discover -s tests -v
+```
+
+The original project comes from a CodeCrafters exercise. Check commit history for individual contribution provenance. There is no license file, so this README does not assert a license. These local tests are not a claimed result from CodeCrafters' grading suite.
